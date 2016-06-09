@@ -1,0 +1,108 @@
+body {
+	background: #efeff4;
+	font-family: '-apple-system','HelveticaNeue';
+	color: #666;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+* {
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+.card {
+	display: block;
+	background: white;
+	margin: 10px;
+	box-shadow: 1px 1px 0px 1px #CDCDCD;
+	padding: 10px;
+	background-image: url("../images/check.png");
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+	background-position: -30px 0;
+	.section.selected & {
+		height: 45px;
+		margin-top: -45px;
+		transition-property: height, margin-top, background-position;
+		transition-duration: 0.6s;
+		background-position: 10px center;
+    	> div {
+    		@keyframes hide {
+			    from {opacity: 1;}
+			    to {opacity: 0;}
+			}
+    		animation-name: hide;
+    		animation-duration: 0.6s;
+    	}
+	}
+}
+
+.header {
+	margin: 10px 20px;
+	color: #666;
+	transition-property: padding-left;
+	transition-duration: 0.6s;
+	.section.selected & {
+		padding-left: 25px;
+	}
+}
+
+.input {
+	border-radius: 0;
+	box-shadow: 0;
+	-webkit-appearance: none;
+	display: block;
+	font-size: 16px;
+	background: none;
+	border-left: none;
+	border-bottom: none;
+	border-right: none;
+	border-top: none;
+	width: 100%;
+	height: 25px;
+}
+
+.card-item {
+	+ .card-item {
+		padding-top: 12px;
+		border-top: 1px solid #CDCDCD;
+		margin-top: 8px;
+		height: 36px;
+	}
+}
+
+.choice {
+	padding-left: 20px;
+	
+	&.selected {
+		&:before {
+			position: absolute;
+			left: 20px;
+			content:"✔︎"
+		}
+	}
+}
+
+
+
+.section {
+	+ .section {
+		margin-top: 25px;
+	}
+	&.appear {
+		@keyframes appear {
+		    from {
+		    	opacity: 0;
+		    	transform: translate(-100px, 50px) rotate(-30deg);
+		    }
+		    to {
+		    	opacity: 1;
+		    	transform: translate(0px) rotate(0deg);
+		    }
+		}
+		animation-name: appear;
+		animation-duration: 0.6s;
+	}
+}
+
+
+
