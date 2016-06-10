@@ -802,6 +802,10 @@ References:
 	};
 })(this);
 $(document).ready(function () {
+	createFirstSection();
+});
+
+function createFirstSection() {
 	var firstSection = section();
 
 	var firstTitle = header().text("Versendweg");
@@ -815,29 +819,37 @@ $(document).ready(function () {
 
 	$("body").append(firstSection);
 	firstSection.bind("completed", function () {
-		var secondSection = section();
-
-		var secondTitle = header().text("Adresse eingeben");
-
-		var secondCard = card();
-		var choices = [input().attr("placeholder", "Adresse"), input().attr("placeholder","Hausnummer")]
-		secondCard.append(choices);
-
-		secondSection.append(secondTitle);
-		secondSection.append(secondCard);
-
-		secondSection.addClass("appear")
-		$("body").append(secondSection);
-		secondSection.bind("completed", function () {
-			var thirdSection = section();
-
-			var thirdTitle = header().text("Vielen Dank");
-			thirdSection.append(thirdTitle);
-			thirdSection.addClass("appear")
-			$("body").append(thirdSection);
-		});
+		createSecondSection()
 	});
-});
+}
+
+function createSecondSection() {
+	var secondSection = section();
+
+	var secondTitle = header().text("Adresse eingeben");
+
+	var secondCard = card();
+	var choices = [input().attr("placeholder", "Adresse"), input().attr("placeholder","Hausnummer")]
+	secondCard.append(choices);
+
+	secondSection.append(secondTitle);
+	secondSection.append(secondCard);
+
+	secondSection.addClass("appear")
+	$("body").append(secondSection);
+	secondSection.bind("completed", function () {
+		createThirdSection();
+	});
+}
+
+function createThirdSection () {
+	var thirdSection = section();
+
+	var thirdTitle = header().text("Vielen Dank");
+	thirdSection.append(thirdTitle);
+	thirdSection.addClass("appear")
+	$("body").append(thirdSection);
+}
 
 function card() {
 	return $("<div class='card'></div>");
@@ -852,7 +864,10 @@ function choice() {
 function input () {
 	return $("<input class='card-item input'/>").keyup(function (e) {
 	    if ((e.keyCode == 13) && ($(this).is(':last-child'))) {
-	    	$(this).blur().trigger("close-section");
+	    	var that = $(this).blur();
+	    	setTimeout(function() {
+	    		that.trigger("close-section");
+	    	}, 200);
 	    }
 	}); 
 }
