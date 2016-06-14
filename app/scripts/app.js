@@ -829,7 +829,7 @@ function createSecondSection() {
 	var secondTitle = header().text("Adresse eingeben");
 
 	var secondCard = card();
-	var choices = [input().attr("placeholder", "Adresse"), input().attr("placeholder","Hausnummer")]
+	var choices = [input().attr("placeholder","Hausnummer"), input().attr("placeholder", "Adresse")]
 	secondCard.append(choices);
 
 	secondSection.append(secondTitle);
@@ -838,9 +838,28 @@ function createSecondSection() {
 	secondSection.addClass("appear")
 	$("body").append(secondSection);
 	secondSection.bind("completed", function () {
-		createThirdSection();
+		createPuppySection();
 	});
 }
+
+function createPuppySection() {
+	var puppySection = section();
+
+	var puppyTitle = header().text("Puppy");
+
+	var puppyCard = card();
+	var choices = [choice().text("Puppy einschließen"), choice().text("Nope, I have no soul.")]
+	puppyCard.append(choices);
+
+	puppySection.append(puppyTitle);
+	puppySection.append(puppyCard);
+
+	$("body").append(puppySection.addClass("appear"));
+	puppySection.bind("completed", function () {
+		createThirdSection()
+	});
+}
+
 
 function createThirdSection () {
 	var thirdSection = section();
