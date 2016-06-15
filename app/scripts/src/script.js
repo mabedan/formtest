@@ -1,4 +1,7 @@
+var firstPage;
 $(document).ready(function () {
+	firstPage = page();
+	firstPage.appendTo("body");
 	createFirstSection();
 });
 
@@ -14,7 +17,7 @@ function createFirstSection() {
 	firstSection.append(firstTitle);
 	firstSection.append(firstCard);
 
-	$("body").append(firstSection);
+	firstPage.append(firstSection);
 	firstSection.bind("completed", function () {
 		createSecondSection()
 	});
@@ -33,9 +36,13 @@ function createSecondSection() {
 	secondSection.append(secondCard);
 
 	secondSection.addClass("appear")
-	$("body").append(secondSection);
+	firstPage.append(secondSection);
 	secondSection.bind("completed", function () {
 		createPuppySection();
+	}).bind("end-input", function () {
+		var addr = gatherInputs(secondSection);
+		secondTitle.html("<strong>Address</strong> "+addr);
+		secondSection.trigger("close-section");
 	});
 }
 
@@ -51,20 +58,71 @@ function createPuppySection() {
 	puppySection.append(puppyTitle);
 	puppySection.append(puppyCard);
 
-	$("body").append(puppySection.addClass("appear"));
+	firstPage.append(puppySection.addClass("appear"));
 	puppySection.bind("completed", function () {
 		createThirdSection()
 	});
 }
 
-
 function createThirdSection () {
+	var longAddressSection = section().bind("completed", function () {
+		createThankSection();
+	});
+
+	var longAddressTitle = header().text("Long address").appendTo(longAddressSection);
+
+	var longAddressCard = card().text("longaddress").bind("click", function () {
+		createLongAddressPage(longAddressSection)
+	}).appendTo(longAddressSection);
+	
+	firstPage.append(longAddressSection.addClass("appear"));	
+
+}
+
+function createLongAddressPage(longAddressSection) {
+	var longAddPage = page().addClass("coming").append(
+		section().append([
+			header().text("Long address sub form"),
+			card().append([
+				input().attr("placeholder","Hausnummer"),
+				input().attr("placeholder","Addresse"),
+				input().attr("placeholder","Stadt"),
+				input().attr("placeholder","PLZ"),
+				input().attr("placeholder","Land"),
+				input().attr("placeholder","Planet"),
+				input().attr("placeholder","Univers"),
+			]),
+			card().text("Fertig").click(function () {
+				var addr = gatherInputs(longAddPage)
+				longAddressSection.find(".header").html("<strong>Long address</strong> "+addr);
+				longAddressSection.trigger("close-section")
+				longAddPage.css("transform", "translate(100%)");
+				setTimeout(function () {
+					longAddPage.remove();
+				}, 600);
+			})
+		])
+	).appendTo("body");
+	setTimeout(function () {
+		longAddPage.css("transform", "translate(0px)");
+	}, 10);
+	setTimeout(function () {
+		longAddPage.removeClass("coming");
+	}, 600);
+
+}
+
+function createThankSection () {
 	var thirdSection = section();
 
 	var thirdTitle = header().text("Vielen Dank");
 	thirdSection.append(thirdTitle);
 	thirdSection.addClass("appear")
-	$("body").append(thirdSection);
+	firstPage.append(thirdSection);
+}
+
+function page() {
+	return $("<div class='page'></div>");
 }
 
 function card() {
@@ -80,10 +138,7 @@ function choice() {
 function input () {
 	return $("<input class='card-item input'/>").keyup(function (e) {
 	    if ((e.keyCode == 13) && ($(this).is(':last-child'))) {
-	    	var that = $(this).blur();
-	    	setTimeout(function() {
-	    		that.trigger("close-section");
-	    	}, 200);
+	    	$(this).blur().trigger("end-input");
 	    }
 	}); 
 }
@@ -114,4 +169,8 @@ function section () {
 		});
 	});
 	return aSection
+}
+
+function gatherInputs (el) {
+	return el.find("input").map(function () { return this.value }).filter(function () {return this.length}).get()	.join(", ");
 }
