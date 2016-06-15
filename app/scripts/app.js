@@ -805,47 +805,47 @@ var firstPage;
 $(document).ready(function () {
 	firstPage = page();
 	firstPage.appendTo("body");
-	createFirstSection();
+	createPerPostSection();
 });
 
-function createFirstSection() {
-	var firstSection = section();
+function createPerPostSection() {
+	var perPostSection = section();
 
-	var firstTitle = header().text("Versendweg");
+	var perPostTitle = header().text("Versendweg");
 
-	var firstCard = card();
+	var perPostCard = card();
 	var choices = [choice().text("Per Email"), choice().text("Per Email und per Post")]
-	firstCard.append(choices);
+	perPostCard.append(choices);
 
-	firstSection.append(firstTitle);
-	firstSection.append(firstCard);
+	perPostSection.append(perPostTitle);
+	perPostSection.append(perPostCard);
 
-	firstPage.append(firstSection);
-	firstSection.bind("completed", function () {
-		createSecondSection()
+	firstPage.append(perPostSection);
+	perPostSection.bind("completed", function () {
+		createShortAddressSection()
 	});
 }
 
-function createSecondSection() {
-	var secondSection = section();
+function createShortAddressSection() {
+	var shirtAddressSection = section();
 
-	var secondTitle = header().text("Adresse eingeben");
+	var shirtAddressTitle = header().text("Adresse eingeben");
 
-	var secondCard = card();
-	var choices = [input().attr("placeholder","Hausnummer"), input().attr("placeholder", "Adresse")]
-	secondCard.append(choices);
+	var shirtAddressCard = card();
+	var choices = [input().attr("placeholder","Hausnummer"), input().attr("placeholder", "Adresse")];
+	shirtAddressCard.append(choices);
 
-	secondSection.append(secondTitle);
-	secondSection.append(secondCard);
+	shirtAddressSection.append(shirtAddressTitle);
+	shirtAddressSection.append(shirtAddressCard);
 
-	secondSection.addClass("appear")
-	firstPage.append(secondSection);
-	secondSection.bind("completed", function () {
+	shirtAddressSection.addClass("appear");
+	firstPage.append(shirtAddressSection);
+	shirtAddressSection.bind("completed", function () {
 		createPuppySection();
 	}).bind("end-input", function () {
-		var addr = gatherInputs(secondSection);
-		secondTitle.html("<strong>Address</strong> "+addr);
-		secondSection.trigger("close-section");
+		var addr = gatherInputs(shirtAddressSection);
+		shirtAddressTitle.html("<strong>Address</strong> "+addr);
+		shirtAddressSection.trigger("close-section");
 	});
 }
 
@@ -863,13 +863,14 @@ function createPuppySection() {
 
 	firstPage.append(puppySection.addClass("appear"));
 	puppySection.bind("completed", function () {
-		createThirdSection()
+		createLongAdressSection()
 	});
 }
 
-function createThirdSection () {
+function createLongAdressSection () {
 	var longAddressSection = section().bind("completed", function () {
-		createThankSection();
+		// createThankSection();
+		createPaymentSection();
 	});
 
 	var longAddressTitle = header().text("Long address").appendTo(longAddressSection);
@@ -922,6 +923,75 @@ function createThankSection () {
 	thirdSection.append(thirdTitle);
 	thirdSection.addClass("appear")
 	firstPage.append(thirdSection);
+}
+
+
+function createPaymentSection (argument) {
+	var paymentSection = section();
+	paymentSection
+		.append(header().text("Zahlung"))
+		.append(
+			tabBar([
+				{
+					text: "PayPal",
+					image: "paypal",
+					card: card().append([input().attr("placeholder","Username"), input().attr("placeholder", "Password")])
+				},
+				{
+					text: "Rechnung",
+					image: "bill",
+					card: card().text("Some sort of description")
+				},
+				{
+					text: "IBAN",
+					image: "iban",
+					card: card()
+						.append(input().attr("placeholder","IBAN"))
+						.append(input().attr("placeholder", "Password"))
+						.append($("<span>").text("Wer ist der Kontoinhaber?"))
+						.append(choice().text("Versicherungsnehmer"))
+						.append(choice().text("andere Person"))
+				}
+			])
+		);
+	paymentSection.addClass("appear").appendTo(firstPage);
+}
+
+function tabBar(tabs) {
+	var tabbar = [];
+	var currectCard;
+	var tabsEl = $("<div class='tabs'></div>");
+	for (var i = tabs.length - 1; i >= 0; i--) {
+		addTab(tabs[i], i);
+	}
+
+	function addTab (t, i) {
+		var tab = tabIcon()
+			.text(t.text)
+			.css("background-image", "url(\"images/"+t.image+".png\")")
+			.click(function () {
+				insertCard(t.card)
+				tabsEl.find(".tab-icon").removeClass("selected");
+				tab.addClass("selected")
+			});
+		if (i == 0) {
+			tab.addClass("selected")
+		}
+		tabsEl.prepend(tab)
+	}
+	function insertCard(c) {
+		if (currectCard) {
+			c.insertAfter(currectCard);
+			currectCard.remove()
+		}
+		currectCard = c;
+		return c
+	}
+	return [tabsEl, insertCard(tabs[0].card)]
+}
+
+function tabIcon() {
+	return $("<div class='tab-icon'></div>");
 }
 
 function page() {
