@@ -1,5 +1,5 @@
 //initialize all of our variables
-var app, base, concat, directory, gulp, gutil, hostname, path, refresh, sass, uglify, imagemin, minifyCSS, del, browserSync, autoprefixer, gulpSequence, shell, sourceMaps, plumber;
+var app, base, concat, directory, gulp, gutil, hostname, path, refresh, sass, imagemin, minifyCSS, del, browserSync, autoprefixer, gulpSequence, shell, sourceMaps, plumber;
 
 var autoPrefixBrowserList = ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'];
 
@@ -8,7 +8,6 @@ var autoPrefixBrowserList = ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'oper
 gulp        = require('gulp');
 gutil       = require('gulp-util');
 concat      = require('gulp-concat');
-uglify      = require('gulp-uglify');
 sass        = require('gulp-sass');
 sourceMaps  = require('gulp-sourcemaps');
 imagemin    = require('gulp-imagemin');
@@ -47,36 +46,6 @@ gulp.task('images-deploy', function() {
         //prevent pipe breaking caused by errors from gulp plugins
         .pipe(plumber())
         .pipe(gulp.dest('dist/images'));
-});
-
-//compiling our Javascripts
-gulp.task('scripts', function() {
-    //this is where our dev JS scripts are
-    return gulp.src(['app/scripts/src/_includes/**/*.js', 'app/scripts/src/**/*.js'])
-                //prevent pipe breaking caused by errors from gulp plugins
-                .pipe(plumber())
-                //this is the filename of the compressed version of our JS
-                .pipe(concat('app.js'))
-                //catch errors
-                .on('error', gutil.log)
-                //where we will store our finalized, compressed script
-                .pipe(gulp.dest('app/scripts'))
-                //notify browserSync to refresh
-                .pipe(browserSync.reload({stream: true}));
-});
-
-//compiling our Javascripts for deployment
-gulp.task('scripts-deploy', function() {
-    //this is where our dev JS scripts are
-    return gulp.src(['app/scripts/src/_includes/**/*.js', 'app/scripts/src/**/*.js'])
-                //prevent pipe breaking caused by errors from gulp plugins
-                .pipe(plumber())
-                //this is the filename of the compressed version of our JS
-                .pipe(concat('app.js'))
-                //compress :D
-                .pipe(uglify())
-                //where we will store our finalized, compressed script
-                .pipe(gulp.dest('dist/scripts'));
 });
 
 //compiling our SCSS files
@@ -198,9 +167,8 @@ gulp.task('scaffold', function() {
 //  startup the web server,
 //  start up browserSync
 //  compress all scripts and SCSS files
-gulp.task('default', ['browserSync', 'scripts', 'styles'], function() {
+gulp.task('default', ['browserSync', 'styles'], function() {
     //a list of watchers, so it will watch all of the following files waiting for changes
-    gulp.watch('app/scripts/src/**', ['scripts']);
     gulp.watch('app/styles/scss/**', ['styles']);
     gulp.watch('app/images/**', ['images']);
     gulp.watch('app/*.html', ['html']);
