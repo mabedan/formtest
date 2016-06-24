@@ -150,9 +150,18 @@ body {
 }
 
 .tabs {
+	max-height: 60px;
 	margin-bottom: -10px;
 	display: block;
 	text-align: center;
+	overflow: hidden;
+
+	transition-property: max-height opacity;
+	transition-duration: $animation-duration;
+	.section.selected & {
+		max-height: 0;
+		opacity: 0;
+	}
 }
 
 .tab-icon {

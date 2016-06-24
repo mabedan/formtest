@@ -10,8 +10,6 @@ define(function (require) {
 	var section = require("components/section");
 	var tabBar = require("components/tabbar");
 
-
-	var firstPage;
 	var ANIMATION_DURATION = 500;
 
 	function createPerPostSection() {
@@ -26,34 +24,34 @@ define(function (require) {
 		perPostSection.append(perPostTitle);
 		perPostSection.append(perPostCard);
 
-		firstPage.append(perPostSection);
 		perPostSection.bind("completed", function () {
 			createShortAddressSection()
 		});
+		return perPostSection
 	}
 
 	function createShortAddressSection() {
-		var shirtAddressSection = section();
+		var shortAddressSection = section();
 
-		var shirtAddressTitle = header().text("Adresse eingeben");
+		var shortAddressTitle = header().text("Adresse eingeben");
 
-		var shirtAddressCard = card();
+		var shortAddressCard = card();
 		var choices = [input().attr("placeholder","Hausnummer"), input().attr("placeholder", "Adresse")];
-		shirtAddressCard.append(choices);
+		shortAddressCard.append(choices);
 
-		shirtAddressSection.append(shirtAddressTitle);
-		shirtAddressSection.append(shirtAddressCard);
+		shortAddressSection.append(shortAddressTitle);
+		shortAddressSection.append(shortAddressCard);
 
-		shirtAddressSection.addClass("appear");
-		firstPage.append(shirtAddressSection);
-		shirtAddressSection.bind("completed", function () {
+		shortAddressSection.bind("completed", function () {
 			createPuppySection();
 		}).bind("end-input", function () {
-			shirtAddressSection.trigger("close-section");
+			shortAddressSection.trigger("close-section");
 		}).bind("prepare-close-section", function () {
-			var addr = gatherInputs(shirtAddressSection);
-			shirtAddressTitle.html("<strong>Address</strong> "+addr);
+			var addr = gatherInputs(shortAddressSection);
+			shortAddressTitle.html("<strong>Address</strong> "+addr);
 		});
+
+		return shortAddressSection
 	}
 
 	function createPuppySection() {
@@ -68,10 +66,10 @@ define(function (require) {
 		puppySection.append(puppyTitle);
 		puppySection.append(puppyCard);
 
-		firstPage.append(puppySection.addClass("appear"));
 		puppySection.bind("completed", function () {
 			createLongAdressSection()
 		});
+		return puppySection
 	}
 
 	function createLongAdressSection () {
@@ -85,8 +83,7 @@ define(function (require) {
 			createLongAddressPage(longAddressSection)
 		}).appendTo(longAddressSection);
 		
-		firstPage.append(longAddressSection.addClass("appear"));	
-
+		return longAddressSection;
 	}
 
 	function createLongAddressPage(longAddressSection) {
@@ -127,8 +124,7 @@ define(function (require) {
 
 		var thirdTitle = header().text("Vielen Dank");
 		thirdSection.append(thirdTitle);
-		thirdSection.addClass("appear")
-		firstPage.append(thirdSection);
+		return thirdSection;
 	}
 
 
@@ -161,7 +157,7 @@ define(function (require) {
 					}
 				])
 			);
-		paymentSection.addClass("appear").appendTo(firstPage).bind("prepare-close-section", function () {
+		return paymentSection.bind("prepare-close-section", function () {
 			paymentHeader.html("<strong>Zahlung</strong> " + $(".tab-icon.selected").text())
 		});
 	}
@@ -169,10 +165,15 @@ define(function (require) {
 	function gatherInputs (el) {
 		return el.find("input").map(function () { return this.value }).filter(function () {return this.length}).get()	.join(", ");
 	}
-	return function () {
-		firstPage = page();
-		firstPage.appendTo("body");
-		// createPaymentSection()
-		createPerPostSection();
+
+	return {
+		perPostSection: createPerPostSection,
+		shortAddressSection: createShortAddressSection,
+		puppySection: createPuppySection,
+		longAdressSection: createLongAdressSection,
+		longAddressPage: createLongAddressPage,
+		thankSection: createThankSection,
+		paymentSection: createPaymentSection
 	}
+	
 });

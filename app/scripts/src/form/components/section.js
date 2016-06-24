@@ -1,7 +1,7 @@
 "use strict";
 
 define(function (require) {
-	return function section () {
+	var  section = function () {
 		var aSection = $("<div class='section'></div>");
 		aSection.bind("close-section", function () {
 			var title1 = $(aSection).find(">.header:eq(0)");
@@ -24,5 +24,7 @@ define(function (require) {
 			});
 		});
 		return aSection
-	}
+	};
+
+	return section
 });
