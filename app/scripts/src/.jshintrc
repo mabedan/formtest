@@ -1,0 +1,28 @@
+{
+  "bitwise": true,
+  "browser": true,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "esnext": true,
+  "immed": true,
+  "jquery": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "quotmark": "double",
+  "strict": true,
+  "undef": true,
+  "unused": "vars",
+  "globals": {
+    "expect"     : false,
+    "define"     : false,
+    "describe"   : false,
+    "it"         : false,
+    "xit"        : false,
+    "before"     : false,
+    "beforeEach" : false,
+    "after"      : false,
+    "afterEach"  : false
+  }
+}

@@ -1,12 +1,14 @@
+$animation-duration: 0.5s;
+
 body {
 	background: #efeff4;
 	font-family: '-apple-system','HelveticaNeue';
 	color: #666;
 	background: #005ea8;
 	background-image: url("../images/check2.png");
-	background-position: center 10px;
+	background-position: center 8px;
 	background-repeat: no-repeat;
-	background-size: 20%;
+	background-size: 80px 24px;
 }
 * {
 	box-sizing: border-box;
@@ -26,7 +28,7 @@ body {
 		height: 45px;
 		margin-top: -45px;
 		transition-property: height, margin-top, background-position;
-		transition-duration: 0.6s;
+		transition-duration: $animation-duration;
 		background-position: 10px center;
     	> * {
     		@keyframes hide {
@@ -34,7 +36,7 @@ body {
 			    to {opacity: 0;}
 			}
     		animation-name: hide;
-    		animation-duration: 0.6s;
+    		animation-duration: $animation-duration;
     	}
 	}
 	> span {
@@ -50,7 +52,7 @@ body {
 	margin: 10px 20px;
 	color: #666;
 	transition-property: padding-left;
-	transition-duration: 0.6s;
+	transition-duration: $animation-duration;
 	.section.selected & {
 		padding-left: 25px;
 	}
@@ -110,14 +112,14 @@ body {
 		    }
 		}
 		animation-name: appear;
-		animation-duration: 0.6s;
+		animation-duration: $animation-duration;
 	}
 }
 
 
 
 .page {
-	position: absolute;
+	position: fixed;
 	left: 0; 
 	top: 40px;
 	bottom: 0;
@@ -127,7 +129,7 @@ body {
 	padding-bottom: 10px;
 	overflow: scroll;
 	transition-property: transform;
-	transition-duration: 0.6s;
+	transition-duration: $animation-duration;
 	box-shadow: 0 0 20px rgba(0,0,0,0.5);
 	&.coming {
 		transform: translate(100%);
@@ -143,7 +145,7 @@ body {
 		    }
 		}
 		animation-name: going;
-		animation-duration: 0.6s;
+		animation-duration: $animation-duration;
 	}	
 }
 
