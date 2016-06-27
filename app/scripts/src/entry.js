@@ -12,5 +12,5 @@ page.addSection(options.puppySection(), firstPage);
 page.addSection(options.puppySection(), firstPage);
 page.addSection(options.puppySection(), firstPage);
 page.addSection(options.longAdressSection(), firstPage);
-page.addSection(options.thankSection(), firstPage);
 page.addSection(options.paymentSection(), firstPage);
+page.addSection(options.thankSection(), firstPage);
