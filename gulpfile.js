@@ -5,18 +5,20 @@ var autoPrefixBrowserList = ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'oper
 
 //load all of our dependencies
 //add more here if you want to include more libraries
-gulp        = require('gulp');
-gutil       = require('gulp-util');
-concat      = require('gulp-concat');
-sass        = require('gulp-sass');
-sourceMaps  = require('gulp-sourcemaps');
-imagemin    = require('gulp-imagemin');
-minifyCSS   = require('gulp-minify-css');
-browserSync = require('browser-sync');
-autoprefixer = require('gulp-autoprefixer');
-gulpSequence = require('gulp-sequence').use(gulp);
-shell       = require('gulp-shell');
-plumber     = require('gulp-plumber');
+var gulp        = require('gulp');
+var gutil       = require('gulp-util');
+var concat      = require('gulp-concat');
+var sass        = require('gulp-sass');
+var uglify = require('gulp-uglify');
+var sourceMaps  = require('gulp-sourcemaps');
+var imagemin    = require('gulp-imagemin');
+var minifyCSS   = require('gulp-minify-css');
+var browserSync = require('browser-sync');
+var autoprefixer = require('gulp-autoprefixer');
+var gulpSequence = require('gulp-sequence').use(gulp);
+var shell       = require('gulp-shell');
+var plumber     = require('gulp-plumber');
+var webpack = require('webpack-stream');
 
 gulp.task('browserSync', function() {
     browserSync({
@@ -142,6 +144,30 @@ gulp.task('html-deploy', function() {
         .pipe(gulp.dest('dist/styles'));
 });
 
+gulp.task('scripts-deploy', function() {
+  return gulp.src('app/scripts/src/entry.js')
+        //prevent pipe breaking caused by errors from gulp plugins
+        .pipe(plumber())
+        .pipe(webpack({
+            output: {
+                filename: "bundle.js"
+            }
+        }))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist/scripts'));
+});
+
+gulp.task('script', function() {
+  return gulp.src('app/scripts/src/entry.js')
+    .pipe(webpack({
+        devtool: 'source-map',
+        output: {
+            filename: "bundle.js"
+        }
+    }))
+    .pipe(gulp.dest('app/scripts'));
+});
+
 //cleans our dist directory in case things got deleted
 gulp.task('clean', function() {
     return shell.task([
@@ -167,11 +193,12 @@ gulp.task('scaffold', function() {
 //  startup the web server,
 //  start up browserSync
 //  compress all scripts and SCSS files
-gulp.task('default', ['browserSync', 'styles'], function() {
+gulp.task('default', ['browserSync', 'script', 'styles'], function() {
     //a list of watchers, so it will watch all of the following files waiting for changes
     gulp.watch('app/styles/scss/**', ['styles']);
     gulp.watch('app/images/**', ['images']);
     gulp.watch('app/*.html', ['html']);
+    gulp.watch('app/scripts/**', ['scripts']);
 });
 
 //this is our deployment task, it will set everything for deployment-ready files
