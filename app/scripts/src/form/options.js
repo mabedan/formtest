@@ -10,22 +10,23 @@ var tabBar = require("./components/tabbar.js");
 
 var ANIMATION_DURATION = 500;
 
+function gatherInputs (el) {
+	return el.find("input").map(function () { return this.value; }).filter(function () {return this.length;}).get().join(", ");
+}
+
 function createPerPostSection() {
 	var perPostSection = section();
 
 	var perPostTitle = header().text("Versendweg");
 
 	var perPostCard = card();
-	var choices = [choice().text("Per Email"), choice().text("Per Email und per Post")]
+	var choices = [choice().text("Per Email"), choice().text("Per Email und per Post")];
 	perPostCard.append(choices);
 
 	perPostSection.append(perPostTitle);
 	perPostSection.append(perPostCard);
 
-	perPostSection.bind("completed", function () {
-		createShortAddressSection()
-	});
-	return perPostSection
+	return perPostSection;
 }
 
 function createShortAddressSection() {
@@ -40,16 +41,14 @@ function createShortAddressSection() {
 	shortAddressSection.append(shortAddressTitle);
 	shortAddressSection.append(shortAddressCard);
 
-	shortAddressSection.bind("completed", function () {
-		createPuppySection();
-	}).bind("end-input", function () {
+	shortAddressSection.bind("end-input", function () {
 		shortAddressSection.trigger("close-section");
 	}).bind("prepare-close-section", function () {
 		var addr = gatherInputs(shortAddressSection);
 		shortAddressTitle.html("<strong>Address</strong> "+addr);
 	});
 
-	return shortAddressSection
+	return shortAddressSection;
 }
 
 function createPuppySection() {
@@ -58,30 +57,13 @@ function createPuppySection() {
 	var puppyTitle = header().text("Puppy");
 
 	var puppyCard = card();
-	var choices = [choice().text("Puppy einschließen"), choice().text("Nope, I have no soul.")]
+	var choices = [choice().text("Puppy einschließen"), choice().text("Nope, I have no soul.")];
 	puppyCard.append(choices);
 
 	puppySection.append(puppyTitle);
 	puppySection.append(puppyCard);
 
-	puppySection.bind("completed", function () {
-		createLongAdressSection()
-	});
-	return puppySection
-}
-
-function createLongAdressSection () {
-	var longAddressSection = section().bind("completed", function () {
-		createPaymentSection();
-	});
-
-	var longAddressTitle = header().text("Long address").appendTo(longAddressSection);
-
-	var longAddressCard = card().text("longaddress").bind("click", function () {
-		createLongAddressPage(longAddressSection)
-	}).appendTo(longAddressSection);
-	
-	return longAddressSection;
+	return puppySection;
 }
 
 function createLongAddressPage(longAddressSection) {
@@ -98,9 +80,9 @@ function createLongAddressPage(longAddressSection) {
 				input().attr("placeholder","Univers"),
 			]),
 			card().text("Fertig").click(function () {
-				var addr = gatherInputs(longAddPage)
+				var addr = gatherInputs(longAddPage);
 				longAddressSection.find(".header").html("<strong>Long address</strong> "+addr);
-				longAddressSection.trigger("close-section")
+				longAddressSection.trigger("close-section");
 				longAddPage.css("transform", "translate(100%)");
 				setTimeout(function () {
 					longAddPage.remove();
@@ -116,6 +98,19 @@ function createLongAddressPage(longAddressSection) {
 	}, ANIMATION_DURATION);
 
 }
+
+function createLongAdressSection () {
+	var longAddressSection = section();
+
+	header().text("Long address").appendTo(longAddressSection);
+
+	card().text("longaddress").bind("click", function () {
+		createLongAddressPage(longAddressSection);
+	}).appendTo(longAddressSection);
+	
+	return longAddressSection;
+}
+
 
 function createThankSection () {
 	var thirdSection = section();
@@ -156,12 +151,9 @@ function createPaymentSection (argument) {
 			])
 		);
 	return paymentSection.bind("prepare-close-section", function () {
-		paymentHeader.html("<strong>Zahlung</strong> " + $(".tab-icon.selected").text())
+		paymentHeader.html("<strong>Zahlung</strong> " + $(".tab-icon.selected").text());
 	});
-}
-
-function gatherInputs (el) {
-	return el.find("input").map(function () { return this.value }).filter(function () {return this.length}).get()	.join(", ");
+	//add variation to go to new page + choices as cards
 }
 
 module.exports = {
@@ -172,4 +164,4 @@ module.exports = {
 	longAddressPage: createLongAddressPage,
 	thankSection: createThankSection,
 	paymentSection: createPaymentSection
-}
+};
