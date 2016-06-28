@@ -8,7 +8,7 @@
   "immed": true,
   "jquery": true,
   "latedef": true,
-  "newcap": true,
+  "newcap": false,
   "noarg": true,
   "quotmark": "double",
   "strict": "global",
@@ -25,6 +25,7 @@
     "after"      : false,
     "afterEach"  : false,
     "module"     : false,
-    "require"    : false
+    "require"    : false,
+    "_"          : false
   }
 }

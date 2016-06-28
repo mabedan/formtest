@@ -1,0 +1,14 @@
+.creator {
+	padding: 5px;
+	.options {
+		float:right;
+	}
+	.added-items {
+		float:left;
+	}
+	.added-items, .options {
+		> div {
+			height: 40px;
+		}
+	}
+}

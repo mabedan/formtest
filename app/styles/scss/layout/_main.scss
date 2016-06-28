@@ -5,6 +5,7 @@
 @import 'components/page';
 @import 'components/section';
 @import 'components/tab';
+@import 'utils/formMaker';
 
 body {
 	background: #efeff4;
@@ -12,7 +13,7 @@ body {
 	color: #666;
 	background: #005ea8;
 	background-image: url("../images/check2.png");
-	background-position: center 8px;
+	background-position: center 10px;
 	background-repeat: no-repeat;
 	background-size: 80px 24px;
 }
