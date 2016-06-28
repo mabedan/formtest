@@ -11,7 +11,7 @@
   "newcap": true,
   "noarg": true,
   "quotmark": "double",
-  "strict": true,
+  "strict": "global",
   "undef": true,
   "unused": "vars",
   "globals": {
@@ -23,6 +23,8 @@
     "before"     : false,
     "beforeEach" : false,
     "after"      : false,
-    "afterEach"  : false
+    "afterEach"  : false,
+    "module"     : false,
+    "require"    : false
   }
 }

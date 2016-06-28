@@ -1,0 +1,10 @@
+
+.header {
+	margin: 10px 20px;
+	color: #666;
+	transition-property: padding-left;
+	transition-duration: $animation-duration;
+	.section.selected & {
+		padding-left: 25px;
+	}
+}

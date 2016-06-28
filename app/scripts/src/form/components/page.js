@@ -2,17 +2,16 @@
 
 var page = function () {
 	var aPage = $("<div class='page'></div>").bind("completed", function () {
-		var remainingSections = aPage.data("sectionsToAppend")
+		var remainingSections = aPage.data("sectionsToAppend");
 		if (remainingSections.length > 0) {
-			var lastSection = aPage.find(".section").last();
-			remainingSections.shift().addClass("appear").appendTo(aPage)
+			remainingSections.shift().addClass("appear").appendTo(aPage);
 			
 			aPage.data("sectionsToAppend", remainingSections);
 		}
 	});
 
-	return aPage
-}
+	return aPage;
+};
 
 page.addSection = function (s, p) { 
 	var lastSection = p.find(".section").last();
@@ -21,8 +20,8 @@ page.addSection = function (s, p) {
 		remainingSections.push(s);
 		p.data("sectionsToAppend", remainingSections);
 	} else {
-		p.append(s)
+		p.append(s);
 	}
-}
+};
 
-module.exports = page
+module.exports = page;

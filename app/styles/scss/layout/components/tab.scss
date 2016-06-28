@@ -1,0 +1,33 @@
+
+.tabs {
+	max-height: 60px;
+	margin-bottom: -10px;
+	display: block;
+	text-align: center;
+	overflow: hidden;
+
+	transition-property: max-height opacity;
+	transition-duration: $animation-duration;
+	.section.selected & {
+		max-height: 0;
+		opacity: 0;
+	}
+}
+
+.tab-icon {
+	background-size: 30px 30px;
+	background-repeat: no-repeat;
+	background-position: center 8px;
+	display: inline-block;
+	height: 60px;
+	padding-top: 40px;
+	margin: 0 10px;
+	width: 60px;
+	text-align: center;
+	font-size: 70%;
+	border-right: solid 2px transparent;
+	&.selected {
+		border-right: solid 2px #CDCDCD;
+		background-color: white;
+	}
+}

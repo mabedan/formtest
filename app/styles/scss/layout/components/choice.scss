@@ -1,0 +1,12 @@
+
+.choice {
+	padding-left: 20px;
+	
+	&.selected {
+		&:before {
+			position: absolute;
+			left: 20px;
+			content:"✔︎"
+		}
+	}
+}

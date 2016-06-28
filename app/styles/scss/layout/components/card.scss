@@ -1,0 +1,43 @@
+
+.card {
+	display: block;
+	background: white;
+	margin: 10px;
+	box-shadow: 1px 1px 0px 1px #CDCDCD;
+	padding: 10px;
+	background-image: url("../images/check.png");
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+	background-position: -30px 0;
+	.section.selected & {
+		height: 45px;
+		margin-top: -45px;
+		transition-property: height, margin-top, background-position;
+		transition-duration: $animation-duration;
+		background-position: 10px center;
+    	> * {
+    		@keyframes hide {
+			    from {opacity: 1;}
+			    to {opacity: 0;}
+			}
+    		animation-name: hide;
+    		animation-duration: $animation-duration;
+    	}
+	}
+	> span {
+		display: block;
+		margin: 10px -10px;
+		margin-bottom: 0;
+		border-top: solid 2px #CDCDCD;
+		padding: 10px 10px;
+	}
+}
+
+.card-item {
+	+ .card-item {
+		padding-top: 12px;
+		border-top: 1px solid #CDCDCD;
+		margin-top: 8px;
+		height: 36px;
+	}
+}

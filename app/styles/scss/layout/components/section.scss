@@ -1,0 +1,20 @@
+
+.section {
+	+ .section {
+		margin-top: 25px;
+	}
+	&.appear {
+		@keyframes appear {
+		    from {
+		    	opacity: 0;
+		    	transform: translate(-100px, 50px) rotate(-30deg);
+		    }
+		    to {
+		    	opacity: 1;
+		    	transform: translate(0px) rotate(0deg);
+		    }
+		}
+		animation-name: appear;
+		animation-duration: $animation-duration;
+	}
+}

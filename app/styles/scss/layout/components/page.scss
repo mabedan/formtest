@@ -1,0 +1,31 @@
+
+.page {
+	position: fixed;
+	left: 0; 
+	top: 40px;
+	bottom: 0;
+	width: 100%;
+	background: #efeff4;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	overflow: scroll;
+	transition-property: transform;
+	transition-duration: $animation-duration;
+	box-shadow: 0 0 20px rgba(0,0,0,0.5);
+	&.coming {
+		transform: translate(100%);
+	}	
+
+	&.going {
+		@keyframes going {
+		    from {
+		    	transform: translate(0px);
+		    }
+		    to {
+		    	transform: translate(100%);
+		    }
+		}
+		animation-name: going;
+		animation-duration: $animation-duration;
+	}	
+}

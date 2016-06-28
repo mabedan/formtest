@@ -157,7 +157,7 @@ gulp.task('scripts-deploy', function() {
         .pipe(gulp.dest('dist/scripts'));
 });
 
-gulp.task('script', function() {
+gulp.task('scripts', function() {
   return gulp.src('app/scripts/src/entry.js')
     .pipe(webpack({
         devtool: 'source-map',
@@ -193,7 +193,7 @@ gulp.task('scaffold', function() {
 //  startup the web server,
 //  start up browserSync
 //  compress all scripts and SCSS files
-gulp.task('default', ['browserSync', 'script', 'styles'], function() {
+gulp.task('default', ['browserSync', 'scripts', 'styles'], function() {
     //a list of watchers, so it will watch all of the following files waiting for changes
     gulp.watch('app/styles/scss/**', ['styles']);
     gulp.watch('app/images/**', ['images']);
